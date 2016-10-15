@@ -11,6 +11,12 @@ makeCacheMatrix <- function(x = matrix()){
   get <- function() x
   setinverse <- function(solve) i <<- solve
   getinverse <- function() i
+  
+  # Creates a list a list containing a function to
+  # 1.set the value of the vector
+  # 2.get the value of the vector
+  # 3.set the value of the mean
+  # 4. the value of the mean        
   list(set = set, get = get,
        setinverse = setinverse,
        getinverse = getinverse)
@@ -22,12 +28,20 @@ makeCacheMatrix <- function(x = matrix()){
 
 cacheSolve <- function(x=matrix(), ...){
   i <- x$getinverse()
+  
+  # If the inverse of the matrix has already been calculated
   if(!is.null(i)){
+    
+    # Get it from the cache and skip the computation of the inverse
     message("getting cached data")
     return(i)
   }
+  
+  # Else compute the inverse of the matrix
   data <- x$get()
   i <- solve(data, ...)
+  
+  # Setting value of the inverse in the cache through the setinv function
   x$setinverse(i)
   i
 }
